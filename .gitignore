@@ -4,6 +4,11 @@ settings.xml
 WEB-INF
 .effective-pom.xml
 
+# Claude Code
+.claude/
+.claude.local.md
+CLAUDE.md
+
 # Engines + Database + CBFS + Secrets
 .tmp/**
 .env
