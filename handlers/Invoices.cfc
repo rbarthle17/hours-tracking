@@ -46,7 +46,7 @@ component extends="coldbox.system.EventHandler" {
 				notes = rc.notes ?: ""
 			);
 			flash.put( "message", "Invoice created successfully." );
-			relocate( "invoices.show", { id: newId } );
+			relocate( "invoices/#newId#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
@@ -58,19 +58,19 @@ component extends="coldbox.system.EventHandler" {
 	 * Display a single invoice with line items and payments
 	 */
 	function show( event, rc, prc ) {
-		prc.invoice = invoiceService.get( rc.id );
+		prc.invoice = invoiceService.get( val( rc.id ) );
 		if ( !prc.invoice.recordCount ) {
 			flash.put( "message", "Invoice not found." );
 			flash.put( "messageType", "danger" );
 			relocate( "invoices" );
 		}
-		prc.lineItems = invoiceService.getLineItems( rc.id );
+		prc.lineItems = invoiceService.getLineItems( val( rc.id ) );
 		prc.payments = queryExecute(
 			"SELECT id, payment_date, amount, method, reference_number, notes, created_at
 			 FROM payments
 			 WHERE invoice_id = :invoiceId
 			 ORDER BY payment_date DESC",
-			{ invoiceId: { value: rc.id, cfsqltype: "cf_sql_integer" } }
+			{ invoiceId: { value: val( rc.id ), cfsqltype: "cf_sql_integer" } }
 		);
 		event.setView( "invoices/show" );
 	}
@@ -79,7 +79,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the edit invoice form (draft only)
 	 */
 	function edit( event, rc, prc ) {
-		prc.invoice = invoiceService.get( rc.id );
+		prc.invoice = invoiceService.get( val( rc.id ) );
 		if ( !prc.invoice.recordCount ) {
 			flash.put( "message", "Invoice not found." );
 			flash.put( "messageType", "danger" );
@@ -88,7 +88,7 @@ component extends="coldbox.system.EventHandler" {
 		if ( prc.invoice.status != "draft" ) {
 			flash.put( "message", "Only draft invoices can be edited." );
 			flash.put( "messageType", "danger" );
-			relocate( "invoices.show", { id: rc.id } );
+			relocate( "invoices/#rc.id#" );
 		}
 		event.setView( "invoices/edit" );
 	}
@@ -98,13 +98,13 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function update( event, rc, prc ) {
 		try {
-			invoiceService.update( rc.id, rc );
+			invoiceService.update( val( rc.id ), rc );
 			flash.put( "message", "Invoice updated successfully." );
-			relocate( "invoices.show", { id: rc.id } );
+			relocate( "invoices/#rc.id#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
-			relocate( "invoices.edit", { id: rc.id } );
+			relocate( "invoices/#rc.id#/edit" );
 		}
 	}
 
@@ -112,9 +112,9 @@ component extends="coldbox.system.EventHandler" {
 	 * Mark an invoice as sent
 	 */
 	function send( event, rc, prc ) {
-		invoiceService.updateStatus( rc.id, "sent" );
+		invoiceService.updateStatus( val( rc.id ), "sent" );
 		flash.put( "message", "Invoice marked as sent." );
-		relocate( "invoices.show", { id: rc.id } );
+		relocate( "invoices/#rc.id#" );
 	}
 
 	/**
@@ -122,7 +122,7 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function delete( event, rc, prc ) {
 		try {
-			invoiceService.delete( rc.id );
+			invoiceService.delete( val( rc.id ) );
 			flash.put( "message", "Invoice deleted." );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );

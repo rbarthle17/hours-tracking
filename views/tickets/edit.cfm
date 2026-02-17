@@ -4,14 +4,14 @@
 		<div class="col-md-8">
 			<div class="d-flex justify-content-between align-items-center mb-4">
 				<h1><i class="bi bi-pencil"></i> Edit Ticket</h1>
-				<a href="#event.buildLink( 'tickets.show', { id: prc.ticket.id } )#" class="btn btn-outline-secondary">
+				<a href="#event.buildLink( 'tickets' )#/#prc.ticket.id#" class="btn btn-outline-secondary">
 					<i class="bi bi-arrow-left"></i> Back to Ticket
 				</a>
 			</div>
 
 			<div class="card">
 				<div class="card-body">
-					<form method="POST" action="#event.buildLink( 'tickets', { id: prc.ticket.id } )#">
+					<form method="POST" action="#event.buildLink( 'tickets' )#/#prc.ticket.id#">
 						<input type="hidden" name="_method" value="PUT">
 
 						<div class="mb-3">
@@ -62,7 +62,7 @@
 							<button type="submit" class="btn btn-primary">
 								<i class="bi bi-check-lg"></i> Update Ticket
 							</button>
-							<a href="#event.buildLink( 'tickets.show', { id: prc.ticket.id } )#" class="btn btn-outline-secondary">Cancel</a>
+							<a href="#event.buildLink( 'tickets' )#/#prc.ticket.id#" class="btn btn-outline-secondary">Cancel</a>
 						</div>
 					</form>
 				</div>

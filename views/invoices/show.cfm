@@ -6,7 +6,7 @@
 		<h1><i class="bi bi-receipt"></i> #encodeForHTML( prc.invoice.invoice_number )#</h1>
 		<div class="d-flex gap-2">
 			<cfif prc.invoice.status EQ "draft">
-				<a href="#event.buildLink( 'invoices.edit', { id: prc.invoice.id } )#" class="btn btn-outline-secondary">
+				<a href="#event.buildLink( 'invoices' )#/#prc.invoice.id#/edit" class="btn btn-outline-secondary">
 					<i class="bi bi-pencil"></i> Edit
 				</a>
 				<form method="POST" action="#event.buildLink( 'invoices' )#/#prc.invoice.id#/send" class="d-inline">
@@ -14,7 +14,7 @@
 						<i class="bi bi-send"></i> Mark as Sent
 					</button>
 				</form>
-				<form method="POST" action="#event.buildLink( 'invoices', { id: prc.invoice.id } )#"
+				<form method="POST" action="#event.buildLink( 'invoices' )#/#prc.invoice.id#"
 					  class="d-inline"
 					  onsubmit="return confirm( 'Are you sure you want to delete this invoice?' );">
 					<input type="hidden" name="_method" value="DELETE">
@@ -48,7 +48,7 @@
 							<dl class="row mb-0">
 								<dt class="col-sm-5">Client</dt>
 								<dd class="col-sm-7">
-									<a href="#event.buildLink( 'clients.show', { id: prc.invoice.client_id } )#">
+									<a href="#event.buildLink( 'clients' )#/#prc.invoice.client_id#">
 										#encodeForHTML( prc.invoice.client_name )#
 									</a>
 								</dd>

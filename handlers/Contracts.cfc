@@ -36,7 +36,7 @@ component extends="coldbox.system.EventHandler" {
 		try {
 			var newId = contractService.create( rc );
 			flash.put( "message", "Contract created successfully." );
-			relocate( "contracts.show", { id: newId } );
+			relocate( "contracts/#newId#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
@@ -48,13 +48,13 @@ component extends="coldbox.system.EventHandler" {
 	 * Display a single contract
 	 */
 	function show( event, rc, prc ) {
-		prc.contract = contractService.get( rc.id );
+		prc.contract = contractService.get( val( rc.id ) );
 		if ( !prc.contract.recordCount ) {
 			flash.put( "message", "Contract not found." );
 			flash.put( "messageType", "danger" );
 			relocate( "contracts" );
 		}
-		prc.timeEntries = timeEntryService.listByContract( rc.id );
+		prc.timeEntries = timeEntryService.listByContract( val( rc.id ) );
 		event.setView( "contracts/show" );
 	}
 
@@ -62,7 +62,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the edit contract form
 	 */
 	function edit( event, rc, prc ) {
-		prc.contract = contractService.get( rc.id );
+		prc.contract = contractService.get( val( rc.id ) );
 		if ( !prc.contract.recordCount ) {
 			flash.put( "message", "Contract not found." );
 			flash.put( "messageType", "danger" );
@@ -77,13 +77,13 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function update( event, rc, prc ) {
 		try {
-			contractService.update( rc.id, rc );
+			contractService.update( val( rc.id ), rc );
 			flash.put( "message", "Contract updated successfully." );
-			relocate( "contracts.show", { id: rc.id } );
+			relocate( "contracts/#rc.id#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
-			relocate( "contracts.edit", { id: rc.id } );
+			relocate( "contracts/#rc.id#/edit" );
 		}
 	}
 
@@ -92,7 +92,7 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function delete( event, rc, prc ) {
 		try {
-			contractService.delete( rc.id );
+			contractService.delete( val( rc.id ) );
 			flash.put( "message", "Contract deleted." );
 		} catch ( database e ) {
 			flash.put( "message", "Cannot delete contract: it has associated time entries." );

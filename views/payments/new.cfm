@@ -4,7 +4,7 @@
 		<div class="col-md-6">
 			<div class="d-flex justify-content-between align-items-center mb-4">
 				<h1><i class="bi bi-cash"></i> Record Payment</h1>
-				<a href="#event.buildLink( 'invoices.show', { id: prc.invoice.id } )#" class="btn btn-outline-secondary">
+				<a href="#event.buildLink( 'invoices' )#/#prc.invoice.id#" class="btn btn-outline-secondary">
 					<i class="bi bi-arrow-left"></i> Back to Invoice
 				</a>
 			</div>
@@ -64,7 +64,7 @@
 							<button type="submit" class="btn btn-success">
 								<i class="bi bi-check-lg"></i> Record Payment
 							</button>
-							<a href="#event.buildLink( 'invoices.show', { id: prc.invoice.id } )#" class="btn btn-outline-secondary">Cancel</a>
+							<a href="#event.buildLink( 'invoices' )#/#prc.invoice.id#" class="btn btn-outline-secondary">Cancel</a>
 						</div>
 					</form>
 				</div>

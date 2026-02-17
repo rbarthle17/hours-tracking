@@ -41,13 +41,13 @@
 								</cfif>
 							</td>
 							<td class="text-end">
-								<a href="#event.buildLink( 'users.edit', { id: prc.users.id } )#"
+								<a href="#event.buildLink( 'users' )#/#prc.users.id#/edit"
 								   class="btn btn-sm btn-outline-secondary">
 									<i class="bi bi-pencil"></i> Edit
 								</a>
 								<cfif prc.users.id NEQ session.user.id>
 									<form method="POST"
-										  action="#event.buildLink( 'users', { id: prc.users.id } )#"
+										  action="#event.buildLink( 'users' )#/#prc.users.id#"
 										  class="d-inline"
 										  onsubmit="return confirm( 'Are you sure you want to delete this user?' );">
 										<input type="hidden" name="_method" value="DELETE">

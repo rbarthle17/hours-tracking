@@ -79,12 +79,12 @@
 						<tr>
 							<td>#formatAppDate( prc.timeEntries.entry_date )#</td>
 							<td>
-								<a href="#event.buildLink( 'tickets.show', { id: prc.timeEntries.ticket_id } )#">
+								<a href="#event.buildLink( 'tickets' )#/#prc.timeEntries.ticket_id#">
 									#encodeForHTML( prc.timeEntries.ticket_title )#
 								</a>
 							</td>
 							<td>
-								<a href="#event.buildLink( 'clients.show', { id: prc.timeEntries.client_id } )#">
+								<a href="#event.buildLink( 'clients' )#/#prc.timeEntries.client_id#">
 									#encodeForHTML( prc.timeEntries.client_name )#
 								</a>
 							</td>
@@ -98,7 +98,7 @@
 								</cfif>
 							</td>
 							<td class="text-end">
-								<a href="#event.buildLink( 'timeentries.edit', { id: prc.timeEntries.id } )#"
+								<a href="#event.buildLink( 'timeentries' )#/#prc.timeEntries.id#/edit"
 								   class="btn btn-sm btn-outline-secondary">
 									<i class="bi bi-pencil"></i>
 								</a>

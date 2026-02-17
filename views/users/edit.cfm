@@ -11,7 +11,7 @@
 
 			<div class="card">
 				<div class="card-body">
-					<form method="POST" action="#event.buildLink( 'users', { id: prc.user.id } )#">
+					<form method="POST" action="#event.buildLink( 'users' )#/#prc.user.id#">
 						<input type="hidden" name="_method" value="PUT">
 
 						<div class="row mb-3">

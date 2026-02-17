@@ -37,7 +37,7 @@ component extends="coldbox.system.EventHandler" {
 		try {
 			var newId = ticketService.create( rc );
 			flash.put( "message", "Ticket created successfully." );
-			relocate( "tickets.show", { id: newId } );
+			relocate( "tickets/#newId#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
@@ -49,13 +49,13 @@ component extends="coldbox.system.EventHandler" {
 	 * Display a single ticket
 	 */
 	function show( event, rc, prc ) {
-		prc.ticket = ticketService.get( rc.id );
+		prc.ticket = ticketService.get( val( rc.id ) );
 		if ( !prc.ticket.recordCount ) {
 			flash.put( "message", "Ticket not found." );
 			flash.put( "messageType", "danger" );
 			relocate( "tickets" );
 		}
-		prc.timeEntries = timeEntryService.listByTicket( rc.id );
+		prc.timeEntries = timeEntryService.listByTicket( val( rc.id ) );
 		event.setView( "tickets/show" );
 	}
 
@@ -63,7 +63,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the edit ticket form
 	 */
 	function edit( event, rc, prc ) {
-		prc.ticket = ticketService.get( rc.id );
+		prc.ticket = ticketService.get( val( rc.id ) );
 		if ( !prc.ticket.recordCount ) {
 			flash.put( "message", "Ticket not found." );
 			flash.put( "messageType", "danger" );
@@ -78,13 +78,13 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function update( event, rc, prc ) {
 		try {
-			ticketService.update( rc.id, rc );
+			ticketService.update( val( rc.id ), rc );
 			flash.put( "message", "Ticket updated successfully." );
-			relocate( "tickets.show", { id: rc.id } );
+			relocate( "tickets/#rc.id#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
-			relocate( "tickets.edit", { id: rc.id } );
+			relocate( "tickets/#rc.id#/edit" );
 		}
 	}
 
@@ -93,7 +93,7 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function delete( event, rc, prc ) {
 		try {
-			ticketService.delete( rc.id );
+			ticketService.delete( val( rc.id ) );
 			flash.put( "message", "Ticket deleted." );
 		} catch ( database e ) {
 			flash.put( "message", "Cannot delete ticket: it has associated time entries." );

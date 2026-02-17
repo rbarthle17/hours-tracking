@@ -3,10 +3,10 @@
 	<div class="d-flex justify-content-between align-items-center mb-4">
 		<h1><i class="bi bi-person"></i> #encodeForHTML( prc.client.name )#</h1>
 		<div class="d-flex gap-2">
-			<a href="#event.buildLink( 'clients.edit', { id: prc.client.id } )#" class="btn btn-outline-secondary">
+			<a href="#event.buildLink( 'clients' )#/#prc.client.id#/edit" class="btn btn-outline-secondary">
 				<i class="bi bi-pencil"></i> Edit
 			</a>
-			<form method="POST" action="#event.buildLink( 'clients', { id: prc.client.id } )#"
+			<form method="POST" action="#event.buildLink( 'clients' )#/#prc.client.id#"
 				  class="d-inline"
 				  onsubmit="return confirm( 'Are you sure you want to delete this client?' );">
 				<input type="hidden" name="_method" value="DELETE">
@@ -82,7 +82,7 @@
 								<cfloop query="prc.contracts">
 									<tr>
 										<td>
-											<a href="#event.buildLink( 'contracts.show', { id: prc.contracts.id } )#">
+											<a href="#event.buildLink( 'contracts' )#/#prc.contracts.id#">
 												#encodeForHTML( prc.contracts.name )#
 											</a>
 										</td>
@@ -119,7 +119,7 @@
 								<cfloop query="prc.tickets">
 									<tr>
 										<td>
-											<a href="#event.buildLink( 'tickets.show', { id: prc.tickets.id } )#">
+											<a href="#event.buildLink( 'tickets' )#/#prc.tickets.id#">
 												#encodeForHTML( prc.tickets.title )#
 											</a>
 										</td>

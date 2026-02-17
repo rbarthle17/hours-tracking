@@ -4,14 +4,14 @@
 		<div class="col-md-8">
 			<div class="d-flex justify-content-between align-items-center mb-4">
 				<h1><i class="bi bi-pencil"></i> Edit Invoice #encodeForHTML( prc.invoice.invoice_number )#</h1>
-				<a href="#event.buildLink( 'invoices.show', { id: prc.invoice.id } )#" class="btn btn-outline-secondary">
+				<a href="#event.buildLink( 'invoices' )#/#prc.invoice.id#" class="btn btn-outline-secondary">
 					<i class="bi bi-arrow-left"></i> Back
 				</a>
 			</div>
 
 			<div class="card">
 				<div class="card-body">
-					<form method="POST" action="#event.buildLink( 'invoices', { id: prc.invoice.id } )#">
+					<form method="POST" action="#event.buildLink( 'invoices' )#/#prc.invoice.id#">
 						<input type="hidden" name="_method" value="PUT">
 
 						<div class="row mb-3">
@@ -37,7 +37,7 @@
 							<button type="submit" class="btn btn-primary">
 								<i class="bi bi-check-lg"></i> Update Invoice
 							</button>
-							<a href="#event.buildLink( 'invoices.show', { id: prc.invoice.id } )#" class="btn btn-outline-secondary">Cancel</a>
+							<a href="#event.buildLink( 'invoices' )#/#prc.invoice.id#" class="btn btn-outline-secondary">Cancel</a>
 						</div>
 					</form>
 				</div>

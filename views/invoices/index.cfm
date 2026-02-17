@@ -60,12 +60,12 @@
 					<cfloop query="prc.invoices">
 						<tr>
 							<td>
-								<a href="#event.buildLink( 'invoices.show', { id: prc.invoices.id } )#">
+								<a href="#event.buildLink( 'invoices' )#/#prc.invoices.id#">
 									#encodeForHTML( prc.invoices.invoice_number )#
 								</a>
 							</td>
 							<td>
-								<a href="#event.buildLink( 'clients.show', { id: prc.invoices.client_id } )#">
+								<a href="#event.buildLink( 'clients' )#/#prc.invoices.client_id#">
 									#encodeForHTML( prc.invoices.client_name )#
 								</a>
 							</td>
@@ -82,7 +82,7 @@
 							</td>
 							<td>#statusBadge( prc.invoices.status )#</td>
 							<td class="text-end">
-								<a href="#event.buildLink( 'invoices.show', { id: prc.invoices.id } )#"
+								<a href="#event.buildLink( 'invoices' )#/#prc.invoices.id#"
 								   class="btn btn-sm btn-outline-secondary">
 									<i class="bi bi-eye"></i>
 								</a>

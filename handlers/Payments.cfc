@@ -12,7 +12,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the new payment form
 	 */
 	function new( event, rc, prc ) {
-		prc.invoice = invoiceService.get( rc.invoiceId );
+		prc.invoice = invoiceService.get( val( rc.invoiceId ) );
 		if ( !prc.invoice.recordCount ) {
 			flash.put( "message", "Invoice not found." );
 			flash.put( "messageType", "danger" );
@@ -34,16 +34,16 @@ component extends="coldbox.system.EventHandler" {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
 		}
-		relocate( "invoices.show", { id: rc.invoiceId } );
+		relocate( "invoices/#rc.invoiceId#" );
 	}
 
 	/**
 	 * Delete a payment
 	 */
 	function delete( event, rc, prc ) {
-		paymentService.delete( rc.id, rc.invoiceId );
+		paymentService.delete( val( rc.id ), val( rc.invoiceId ) );
 		flash.put( "message", "Payment deleted." );
-		relocate( "invoices.show", { id: rc.invoiceId } );
+		relocate( "invoices/#rc.invoiceId#" );
 	}
 
 }

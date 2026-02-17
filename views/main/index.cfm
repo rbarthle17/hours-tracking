@@ -65,7 +65,7 @@
 									<tr>
 										<td>#formatAppDate( prc.recentEntries.entry_date )#</td>
 										<td>
-											<a href="#event.buildLink( 'tickets.show', { id: prc.recentEntries.ticket_id } )#">
+											<a href="#event.buildLink( 'tickets' )#/#prc.recentEntries.ticket_id#">
 												#encodeForHTML( prc.recentEntries.ticket_title )#
 											</a>
 										</td>
@@ -113,7 +113,7 @@
 									<cfset balance = prc.outstandingInvoices.total_amount - prc.outstandingInvoices.total_paid>
 									<tr>
 										<td>
-											<a href="#event.buildLink( 'invoices.show', { id: prc.outstandingInvoices.id } )#">
+											<a href="#event.buildLink( 'invoices' )#/#prc.outstandingInvoices.id#">
 												#encodeForHTML( prc.outstandingInvoices.invoice_number )#
 											</a>
 										</td>

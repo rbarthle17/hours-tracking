@@ -65,12 +65,12 @@
 					<cfloop query="prc.tickets">
 						<tr>
 							<td>
-								<a href="#event.buildLink( 'tickets.show', { id: prc.tickets.id } )#">
+								<a href="#event.buildLink( 'tickets' )#/#prc.tickets.id#">
 									#encodeForHTML( prc.tickets.title )#
 								</a>
 							</td>
 							<td>
-								<a href="#event.buildLink( 'clients.show', { id: prc.tickets.client_id } )#">
+								<a href="#event.buildLink( 'clients' )#/#prc.tickets.client_id#">
 									#encodeForHTML( prc.tickets.client_name )#
 								</a>
 							</td>
@@ -78,7 +78,7 @@
 							<td>#statusBadge( prc.tickets.priority )#</td>
 							<td>#formatAppDate( prc.tickets.created_at )#</td>
 							<td class="text-end">
-								<a href="#event.buildLink( 'tickets.edit', { id: prc.tickets.id } )#"
+								<a href="#event.buildLink( 'tickets' )#/#prc.tickets.id#/edit"
 								   class="btn btn-sm btn-outline-secondary">
 									<i class="bi bi-pencil"></i>
 								</a>

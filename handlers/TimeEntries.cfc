@@ -43,7 +43,7 @@ component extends="coldbox.system.EventHandler" {
 			rc.user_id = prc.currentUser.id;
 			var newId = timeEntryService.create( rc );
 			flash.put( "message", "Time entry logged successfully." );
-			relocate( "timeentries.show", { id: newId } );
+			relocate( "timeentries/#newId#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
@@ -55,7 +55,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display a single time entry
 	 */
 	function show( event, rc, prc ) {
-		prc.timeEntry = timeEntryService.get( rc.id );
+		prc.timeEntry = timeEntryService.get( val( rc.id ) );
 		if ( !prc.timeEntry.recordCount ) {
 			flash.put( "message", "Time entry not found." );
 			flash.put( "messageType", "danger" );
@@ -68,7 +68,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the edit time entry form
 	 */
 	function edit( event, rc, prc ) {
-		prc.timeEntry = timeEntryService.get( rc.id );
+		prc.timeEntry = timeEntryService.get( val( rc.id ) );
 		if ( !prc.timeEntry.recordCount ) {
 			flash.put( "message", "Time entry not found." );
 			flash.put( "messageType", "danger" );
@@ -84,13 +84,13 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function update( event, rc, prc ) {
 		try {
-			timeEntryService.update( rc.id, rc );
+			timeEntryService.update( val( rc.id ), rc );
 			flash.put( "message", "Time entry updated successfully." );
-			relocate( "timeentries.show", { id: rc.id } );
+			relocate( "timeentries/#rc.id#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
-			relocate( "timeentries.edit", { id: rc.id } );
+			relocate( "timeentries/#rc.id#/edit" );
 		}
 	}
 
@@ -99,7 +99,7 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function delete( event, rc, prc ) {
 		try {
-			timeEntryService.delete( rc.id );
+			timeEntryService.delete( val( rc.id ) );
 			flash.put( "message", "Time entry deleted." );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );

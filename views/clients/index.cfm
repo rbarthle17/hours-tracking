@@ -36,18 +36,18 @@
 					<cfloop query="prc.clients">
 						<tr>
 							<td>
-								<a href="#event.buildLink( 'clients.show', { id: prc.clients.id } )#">
+								<a href="#event.buildLink( 'clients' )#/#prc.clients.id#">
 									#encodeForHTML( prc.clients.name )#
 								</a>
 							</td>
 							<td>#encodeForHTML( prc.clients.email )#</td>
 							<td>#encodeForHTML( prc.clients.phone )#</td>
 							<td class="text-end">
-								<a href="#event.buildLink( 'clients.show', { id: prc.clients.id } )#"
+								<a href="#event.buildLink( 'clients' )#/#prc.clients.id#"
 								   class="btn btn-sm btn-outline-primary">
 									<i class="bi bi-eye"></i> View
 								</a>
-								<a href="#event.buildLink( 'clients.edit', { id: prc.clients.id } )#"
+								<a href="#event.buildLink( 'clients' )#/#prc.clients.id#/edit"
 								   class="btn btn-sm btn-outline-secondary">
 									<i class="bi bi-pencil"></i> Edit
 								</a>

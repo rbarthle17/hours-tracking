@@ -28,9 +28,7 @@ component {
 			.withAction( { POST: "send" } )
 			.toHandler( "Invoices" );
 
-		resources( resource = "invoices", parameterName = "id" );
-
-		// Nested payment routes under invoices
+		// Nested payment routes under invoices (must come before resources)
 		route( "/invoices/:invoiceId/payments/new" )
 			.withAction( { GET: "new" } )
 			.toHandler( "Payments" );
@@ -40,6 +38,8 @@ component {
 		route( "/invoices/:invoiceId/payments/:id" )
 			.withAction( { DELETE: "delete" } )
 			.toHandler( "Payments" );
+
+		resources( resource = "invoices", parameterName = "id" );
 
 		// Dashboard
 		route( "/" ).to( "Main.index" );

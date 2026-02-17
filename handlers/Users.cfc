@@ -52,7 +52,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the edit user form
 	 */
 	function edit( event, rc, prc ) {
-		prc.user = userService.get( rc.id );
+		prc.user = userService.get( val( rc.id ) );
 		if ( !prc.user.recordCount ) {
 			flash.put( "message", "User not found." );
 			flash.put( "messageType", "danger" );
@@ -65,11 +65,11 @@ component extends="coldbox.system.EventHandler" {
 	 * Update an existing user
 	 */
 	function update( event, rc, prc ) {
-		userService.update( rc.id, rc );
+		userService.update( val( rc.id ), rc );
 
 		// If a new password was provided, update it
 		if ( len( trim( rc.password ?: "" ) ) ) {
-			userService.updatePassword( rc.id, rc.password );
+			userService.updatePassword( val( rc.id ), rc.password );
 		}
 
 		flash.put( "message", "User updated successfully." );
@@ -81,7 +81,7 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function delete( event, rc, prc ) {
 		// Prevent deleting yourself
-		if ( rc.id == session.user.id ) {
+		if ( val( rc.id ) == session.user.id ) {
 			flash.put( "message", "You cannot delete your own account." );
 			flash.put( "messageType", "danger" );
 			relocate( "users" );
@@ -89,7 +89,7 @@ component extends="coldbox.system.EventHandler" {
 		}
 
 		try {
-			userService.delete( rc.id );
+			userService.delete( val( rc.id ) );
 			flash.put( "message", "User deleted." );
 		} catch ( database e ) {
 			flash.put( "message", "Cannot delete user: they have associated time entries." );

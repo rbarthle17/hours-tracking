@@ -31,7 +31,7 @@ component extends="coldbox.system.EventHandler" {
 		try {
 			var newId = clientService.create( rc );
 			flash.put( "message", "Client created successfully." );
-			relocate( "clients.show", { id: newId } );
+			relocate( "clients/#newId#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
@@ -43,14 +43,14 @@ component extends="coldbox.system.EventHandler" {
 	 * Display a single client
 	 */
 	function show( event, rc, prc ) {
-		prc.client = clientService.get( rc.id );
+		prc.client = clientService.get( val( rc.id ) );
 		if ( !prc.client.recordCount ) {
 			flash.put( "message", "Client not found." );
 			flash.put( "messageType", "danger" );
 			relocate( "clients" );
 		}
-		prc.contracts = contractService.listByClient( rc.id );
-		prc.tickets = ticketService.listByClient( rc.id );
+		prc.contracts = contractService.listByClient( val( rc.id ) );
+		prc.tickets = ticketService.listByClient( val( rc.id ) );
 		event.setView( "clients/show" );
 	}
 
@@ -58,7 +58,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the edit client form
 	 */
 	function edit( event, rc, prc ) {
-		prc.client = clientService.get( rc.id );
+		prc.client = clientService.get( val( rc.id ) );
 		if ( !prc.client.recordCount ) {
 			flash.put( "message", "Client not found." );
 			flash.put( "messageType", "danger" );
@@ -72,13 +72,13 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function update( event, rc, prc ) {
 		try {
-			clientService.update( rc.id, rc );
+			clientService.update( val( rc.id ), rc );
 			flash.put( "message", "Client updated successfully." );
-			relocate( "clients.show", { id: rc.id } );
+			relocate( "clients/#rc.id#" );
 		} catch ( validation e ) {
 			flash.put( "message", e.message );
 			flash.put( "messageType", "danger" );
-			relocate( "clients.edit", { id: rc.id } );
+			relocate( "clients/#rc.id#/edit" );
 		}
 	}
 
@@ -87,7 +87,7 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function delete( event, rc, prc ) {
 		try {
-			clientService.delete( rc.id );
+			clientService.delete( val( rc.id ) );
 			flash.put( "message", "Client deleted." );
 		} catch ( database e ) {
 			flash.put( "message", "Cannot delete client: they have associated contracts or tickets." );

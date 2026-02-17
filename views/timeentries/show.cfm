@@ -3,10 +3,10 @@
 	<div class="d-flex justify-content-between align-items-center mb-4">
 		<h1><i class="bi bi-clock-history"></i> Time Entry</h1>
 		<div class="d-flex gap-2">
-			<a href="#event.buildLink( 'timeentries.edit', { id: prc.timeEntry.id } )#" class="btn btn-outline-secondary">
+			<a href="#event.buildLink( 'timeentries' )#/#prc.timeEntry.id#/edit" class="btn btn-outline-secondary">
 				<i class="bi bi-pencil"></i> Edit
 			</a>
-			<form method="POST" action="#event.buildLink( 'timeentries', { id: prc.timeEntry.id } )#"
+			<form method="POST" action="#event.buildLink( 'timeentries' )#/#prc.timeEntry.id#"
 				  class="d-inline"
 				  onsubmit="return confirm( 'Are you sure you want to delete this time entry?' );">
 				<input type="hidden" name="_method" value="DELETE">
@@ -34,21 +34,21 @@
 
 						<dt class="col-sm-4">Ticket</dt>
 						<dd class="col-sm-8">
-							<a href="#event.buildLink( 'tickets.show', { id: prc.timeEntry.ticket_id } )#">
+							<a href="#event.buildLink( 'tickets' )#/#prc.timeEntry.ticket_id#">
 								#encodeForHTML( prc.timeEntry.ticket_title )#
 							</a>
 						</dd>
 
 						<dt class="col-sm-4">Client</dt>
 						<dd class="col-sm-8">
-							<a href="#event.buildLink( 'clients.show', { id: prc.timeEntry.client_id } )#">
+							<a href="#event.buildLink( 'clients' )#/#prc.timeEntry.client_id#">
 								#encodeForHTML( prc.timeEntry.client_name )#
 							</a>
 						</dd>
 
 						<dt class="col-sm-4">Contract</dt>
 						<dd class="col-sm-8">
-							<a href="#event.buildLink( 'contracts.show', { id: prc.timeEntry.contract_id } )#">
+							<a href="#event.buildLink( 'contracts' )#/#prc.timeEntry.contract_id#">
 								#encodeForHTML( prc.timeEntry.contract_name )#
 							</a>
 						</dd>

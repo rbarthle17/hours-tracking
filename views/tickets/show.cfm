@@ -3,10 +3,10 @@
 	<div class="d-flex justify-content-between align-items-center mb-4">
 		<h1><i class="bi bi-kanban"></i> #encodeForHTML( prc.ticket.title )#</h1>
 		<div class="d-flex gap-2">
-			<a href="#event.buildLink( 'tickets.edit', { id: prc.ticket.id } )#" class="btn btn-outline-secondary">
+			<a href="#event.buildLink( 'tickets' )#/#prc.ticket.id#/edit" class="btn btn-outline-secondary">
 				<i class="bi bi-pencil"></i> Edit
 			</a>
-			<form method="POST" action="#event.buildLink( 'tickets', { id: prc.ticket.id } )#"
+			<form method="POST" action="#event.buildLink( 'tickets' )#/#prc.ticket.id#"
 				  class="d-inline"
 				  onsubmit="return confirm( 'Are you sure you want to delete this ticket?' );">
 				<input type="hidden" name="_method" value="DELETE">
@@ -28,7 +28,7 @@
 					<dl class="row mb-0">
 						<dt class="col-sm-4">Client</dt>
 						<dd class="col-sm-8">
-							<a href="#event.buildLink( 'clients.show', { id: prc.ticket.client_id } )#">
+							<a href="#event.buildLink( 'clients' )#/#prc.ticket.client_id#">
 								#encodeForHTML( prc.ticket.client_name )#
 							</a>
 						</dd>
