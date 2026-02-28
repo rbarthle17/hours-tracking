@@ -18,7 +18,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/app" {
 				// Simulate authenticated session
 				session.user = {
 					id: 1,
-					email: "admin@hourstrack.local",
+					email: "rob.barthle@cf-expert.com",
 					first_name: "Admin",
 					last_name: "User",
 					role: "admin"
