@@ -4,7 +4,7 @@
     "trace":false,
     "openBrowser":true,
     "console":false,
-    "trayEnable":true,
+    "trayEnable":false,
     "jvm":{
         "heapSize":2048,
         "minHeapSize":2048
