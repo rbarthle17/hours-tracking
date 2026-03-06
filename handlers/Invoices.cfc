@@ -8,6 +8,7 @@ component extends="coldbox.system.EventHandler" {
 	property name="invoiceService" inject="InvoiceService";
 	property name="clientService" inject="ClientService";
 	property name="timeEntryService" inject="TimeEntryService";
+	property name="expenseService" inject="ExpenseService";
 
 	/**
 	 * List all invoices with filters
@@ -29,6 +30,9 @@ component extends="coldbox.system.EventHandler" {
 		prc.uninvoiced = timeEntryService.getUninvoiced(
 			clientId = val( rc.client_id ?: 0 )
 		);
+		prc.unbilledExpenses = val( rc.client_id ?: 0 )
+			? expenseService.getUnbilledByClient( val( rc.client_id ) )
+			: queryNew( "id,expense_date,vendor,amount,category,description", "integer,date,varchar,decimal,varchar,varchar" );
 		event.setView( "invoices/new" );
 	}
 

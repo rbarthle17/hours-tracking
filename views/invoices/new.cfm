@@ -26,6 +26,21 @@
 		</div>
 	</div>
 
+	<!--- Unbilled billable expenses notice --->
+	<cfif val( rc.client_id ?: 0 ) GT 0 AND prc.unbilledExpenses.recordCount GT 0>
+		<cfset unbilledTotal = 0>
+		<cfloop query="prc.unbilledExpenses">
+			<cfset unbilledTotal += prc.unbilledExpenses.amount>
+		</cfloop>
+		<div class="alert alert-warning mb-4">
+			<i class="bi bi-exclamation-triangle"></i>
+			This client has <strong>#prc.unbilledExpenses.recordCount# unbilled billable expense#prc.unbilledExpenses.recordCount NEQ 1 ? 's' : ''#</strong>
+			totaling <strong>#formatCurrency( unbilledTotal )#</strong>.
+			<a href="#event.buildLink( 'expenses' )#?client_id=#encodeForURL( rc.client_id )#&billable=1"
+			   class="alert-link">View expenses</a> to manage them before invoicing.
+		</div>
+	</cfif>
+
 	<!--- Step 2: Select time entries (shown when client is selected) --->
 	<cfif val( rc.client_id ?: 0 ) GT 0>
 		<cfif prc.uninvoiced.recordCount>

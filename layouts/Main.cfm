@@ -81,6 +81,12 @@
 									<i class="bi bi-receipt"></i> Invoices
 								</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link #event.getCurrentHandler() eq 'Expenses' ? 'active' : ''#"
+								   href="#event.buildLink( 'expenses' )#">
+									<i class="bi bi-receipt-cutoff"></i> Expenses
+								</a>
+							</li>
 						</ul>
 
 						<ul class="navbar-nav mb-2 mb-lg-0">

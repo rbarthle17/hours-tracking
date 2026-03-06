@@ -41,6 +41,11 @@ component {
 
 		resources( resource = "invoices", parameterName = "id" );
 
+		// Expense exports (must come before resources to take precedence)
+		route( "/expenses/export" ).withAction( { GET: "export" } ).toHandler( "Expenses" );
+		route( "/expenses/pnl" ).withAction( { GET: "pnl" } ).toHandler( "Expenses" );
+		resources( resource = "expenses", parameterName = "id" );
+
 		// Dashboard
 		route( "/" ).to( "Main.index" );
 
