@@ -32,3 +32,4 @@ effective-pom.xml
 /testbox/**
 /modules/**
 /lib/**
+.cfconfig.json
