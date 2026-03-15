@@ -33,6 +33,14 @@
 							</a>
 						</dd>
 
+						<dt class="col-sm-4">Contract</dt>
+						<dd class="col-sm-8">
+							<a href="#event.buildLink( 'contracts' )#/#prc.ticket.contract_id#">
+								#encodeForHTML( prc.ticket.contract_name )#
+							</a>
+							(#formatCurrency( prc.ticket.hourly_rate )#/hr)
+						</dd>
+
 						<dt class="col-sm-4">Status</dt>
 						<dd class="col-sm-8">#statusBadge( prc.ticket.status )#</dd>
 
@@ -67,7 +75,6 @@
 							<thead>
 								<tr>
 									<th>Date</th>
-									<th>Contract</th>
 									<th class="text-end">Hours</th>
 								</tr>
 							</thead>
@@ -75,7 +82,6 @@
 								<cfloop query="prc.timeEntries">
 									<tr>
 										<td>#formatAppDate( prc.timeEntries.entry_date )#</td>
-										<td>#encodeForHTML( prc.timeEntries.contract_name )#</td>
 										<td class="text-end">#numberFormat( prc.timeEntries.hours_worked, '0.00' )#</td>
 									</tr>
 								</cfloop>

@@ -99,8 +99,8 @@ component singleton accessors="true" {
 		if ( !len( trim( arguments.data.name ?: "" ) ) ) {
 			throw( type = "validation", message = "Contract name is required." );
 		}
-		if ( !val( arguments.data.hourly_rate ?: 0 ) ) {
-			throw( type = "validation", message = "Hourly rate must be greater than zero." );
+		if ( val( arguments.data.hourly_rate ?: 0 ) < 0 ) {
+			throw( type = "validation", message = "Hourly rate cannot be negative." );
 		}
 
 		queryExecute(

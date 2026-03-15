@@ -14,14 +14,21 @@
 					<form method="POST" action="#event.buildLink( 'tickets' )#">
 
 						<div class="mb-3">
-							<label for="client_id" class="form-label">Client <span class="text-danger">*</span></label>
-							<select class="form-select" id="client_id" name="client_id" required>
-								<option value="">Select a client...</option>
-								<cfloop query="prc.clients">
-									<option value="#prc.clients.id#" #val( rc.client_id ?: 0 ) EQ prc.clients.id ? 'selected' : ''#>
-										#encodeForHTML( prc.clients.name )#
+							<label for="contract_id" class="form-label">Contract <span class="text-danger">*</span></label>
+							<select class="form-select" id="contract_id" name="contract_id" required>
+								<option value="">Select a contract...</option>
+								<cfset currentClient = "">
+								<cfloop query="prc.contracts">
+									<cfif prc.contracts.client_name NEQ currentClient>
+										<cfif len( currentClient )></optgroup></cfif>
+										<optgroup label="#encodeForHTMLAttribute( prc.contracts.client_name )#">
+										<cfset currentClient = prc.contracts.client_name>
+									</cfif>
+									<option value="#prc.contracts.id#" #val( rc.contract_id ?: 0 ) EQ prc.contracts.id ? 'selected' : ''#>
+										#encodeForHTML( prc.contracts.name )# (#formatCurrency( prc.contracts.hourly_rate )#/hr)
 									</option>
 								</cfloop>
+								<cfif len( currentClient )></optgroup></cfif>
 							</select>
 						</div>
 

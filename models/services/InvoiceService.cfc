@@ -159,12 +159,12 @@ component singleton accessors="true" {
 			}
 
 			var entries = queryExecute(
-				"SELECT te.id, te.contract_id, te.hours_worked, te.notes,
-						t.title AS ticket_title,
+				"SELECT te.id, te.hours_worked, te.notes,
+						t.title AS ticket_title, t.contract_id,
 						c.hourly_rate
 				 FROM time_entries te
 				 JOIN tickets t ON te.ticket_id = t.id
-				 JOIN contracts c ON te.contract_id = c.id
+				 JOIN contracts c ON t.contract_id = c.id
 				 WHERE te.id IN ( #arrayToList( placeholders )# )",
 				teParams
 			);

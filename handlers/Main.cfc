@@ -49,8 +49,8 @@ component extends="coldbox.system.EventHandler" {
 					c.name AS contract_name, c.hourly_rate
 			 FROM time_entries te
 			 JOIN tickets t ON te.ticket_id = t.id
-			 JOIN contracts c ON te.contract_id = c.id
-			 JOIN clients cl ON t.client_id = cl.id
+			 JOIN contracts c ON t.contract_id = c.id
+			 JOIN clients cl ON c.client_id = cl.id
 			 ORDER BY te.entry_date DESC, te.created_at DESC
 			 LIMIT 10"
 		);

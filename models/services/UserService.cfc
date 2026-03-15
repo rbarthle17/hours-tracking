@@ -84,7 +84,7 @@ component singleton accessors="true" {
 				first_name: { value: trim( arguments.data.first_name ), cfsqltype: "cf_sql_varchar" },
 				last_name: { value: trim( arguments.data.last_name ), cfsqltype: "cf_sql_varchar" },
 				role: { value: arguments.data.role ?: "contractor", cfsqltype: "cf_sql_varchar" },
-				is_active: { value: arguments.data.is_active ?: true, cfsqltype: "cf_sql_bit" }
+				is_active: { value: listFind( arguments.data.is_active ?: "1", "1" ) ? 1 : 0, cfsqltype: "cf_sql_bit" }
 			},
 			{ result: "local.insertResult" }
 		);
@@ -113,7 +113,7 @@ component singleton accessors="true" {
 				first_name: { value: trim( arguments.data.first_name ), cfsqltype: "cf_sql_varchar" },
 				last_name: { value: trim( arguments.data.last_name ), cfsqltype: "cf_sql_varchar" },
 				role: { value: arguments.data.role, cfsqltype: "cf_sql_varchar" },
-				is_active: { value: arguments.data.is_active ?: true, cfsqltype: "cf_sql_bit" }
+				is_active: { value: listFind( arguments.data.is_active ?: "1", "1" ) ? 1 : 0, cfsqltype: "cf_sql_bit" }
 			}
 		);
 	}

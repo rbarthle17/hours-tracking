@@ -7,6 +7,7 @@ component extends="coldbox.system.EventHandler" {
 
 	property name="ticketService" inject="TicketService";
 	property name="clientService" inject="ClientService";
+	property name="contractService" inject="ContractService";
 	property name="timeEntryService" inject="TimeEntryService";
 
 	/**
@@ -26,7 +27,7 @@ component extends="coldbox.system.EventHandler" {
 	 * Display the new ticket form
 	 */
 	function new( event, rc, prc ) {
-		prc.clients = clientService.list();
+		prc.contracts = contractService.getActiveContracts();
 		event.setView( "tickets/new" );
 	}
 
@@ -69,7 +70,7 @@ component extends="coldbox.system.EventHandler" {
 			flash.put( "messageType", "danger" );
 			relocate( "tickets" );
 		}
-		prc.clients = clientService.list();
+		prc.contracts = contractService.getActiveContracts();
 		event.setView( "tickets/edit" );
 	}
 

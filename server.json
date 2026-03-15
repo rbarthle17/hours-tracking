@@ -15,7 +15,7 @@
         "maxRequests":30,
         "welcomeFiles":"index.cfm,index.html",
         "HTTP":{
-            "host":"127.0.0.1",
+            "host":"hours.local",
             "enable":true,
             "port":"51717"
         },
@@ -36,5 +36,7 @@
     "fusionreactor":{
         "enable":false
     },
+    "openBrowserURL":"http://hours.local:51717",
+    "cfconfigfile":".cfconfig.json",
     "profile":"development"
 }

@@ -31,7 +31,6 @@ component extends="coldbox.system.EventHandler" {
 	 */
 	function new( event, rc, prc ) {
 		prc.tickets = ticketService.getActiveTickets();
-		prc.contracts = contractService.getActiveContracts();
 		event.setView( "timeentries/new" );
 	}
 
@@ -75,7 +74,6 @@ component extends="coldbox.system.EventHandler" {
 			relocate( "timeentries" );
 		}
 		prc.tickets = ticketService.getActiveTickets();
-		prc.contracts = contractService.getActiveContracts();
 		event.setView( "timeentries/edit" );
 	}
 

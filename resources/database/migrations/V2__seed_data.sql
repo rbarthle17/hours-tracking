@@ -19,44 +19,45 @@ INSERT INTO contracts (client_id, name, hourly_rate, start_date, end_date, statu
 (2, 'TechStart MVP Build', 160.00, '2025-12-01', '2026-03-31', 'active'),
 (3, 'Greenfield Legacy Migration', 140.00, '2025-10-01', '2025-12-31', 'completed');
 
--- Tickets
-INSERT INTO tickets (client_id, title, description, status, priority) VALUES
+-- Tickets (contract_id instead of client_id — client derived from contract)
+INSERT INTO tickets (contract_id, title, description, status, priority) VALUES
 (1, 'User authentication module', 'Implement login, registration, and password reset flows', 'in_progress', 'high'),
 (1, 'Dashboard wireframes to HTML', 'Convert approved wireframes to responsive HTML/CSS', 'open', 'medium'),
-(1, 'API endpoint - user profiles', 'REST endpoints for CRUD operations on user profiles', 'open', 'medium'),
-(1, 'Payment gateway integration', 'Integrate Stripe for subscription billing', 'open', 'high'),
-(2, 'MVP landing page', 'Build responsive landing page with signup form', 'done', 'high'),
-(2, 'User onboarding flow', 'Multi-step onboarding wizard for new users', 'in_progress', 'medium'),
-(2, 'Analytics dashboard', 'Charts and metrics for user engagement', 'open', 'low'),
-(3, 'Database migration scripts', 'Migrate legacy Access DB to PostgreSQL', 'done', 'high');
+(2, 'API endpoint - user profiles', 'REST endpoints for CRUD operations on user profiles', 'open', 'medium'),
+(2, 'Payment gateway integration', 'Integrate Stripe for subscription billing', 'open', 'high'),
+(3, 'MVP landing page', 'Build responsive landing page with signup form', 'done', 'high'),
+(3, 'User onboarding flow', 'Multi-step onboarding wizard for new users', 'in_progress', 'medium'),
+(3, 'Analytics dashboard', 'Charts and metrics for user engagement', 'open', 'low'),
+(4, 'Database migration scripts', 'Migrate legacy Access DB to PostgreSQL', 'done', 'high');
 
 -- Time entries (spread across Jan-Feb 2026)
-INSERT INTO time_entries (ticket_id, contract_id, user_id, entry_date, hours_worked, notes) VALUES
--- Acme Web Portal work
-(1, 1, 1, '2026-01-06', 6.00, 'Set up auth scaffolding, session management'),
-(1, 1, 1, '2026-01-07', 7.50, 'Login/logout flow, password hashing'),
-(1, 1, 1, '2026-01-08', 5.25, 'Registration form and validation'),
-(2, 1, 1, '2026-01-09', 8.00, 'Dashboard layout, responsive grid'),
-(2, 1, 1, '2026-01-10', 4.00, 'Chart components and data binding'),
--- Acme API work
-(3, 2, 1, '2026-01-13', 6.50, 'API design and endpoint scaffolding'),
-(3, 2, 1, '2026-01-14', 7.00, 'CRUD endpoints with validation'),
-(4, 2, 1, '2026-01-15', 3.50, 'Stripe API research and sandbox setup'),
--- TechStart work
-(5, 3, 1, '2026-01-20', 8.00, 'Landing page HTML/CSS from design comp'),
-(5, 3, 1, '2026-01-21', 4.50, 'Signup form with email validation'),
-(6, 3, 1, '2026-01-22', 6.00, 'Onboarding step 1-3 implementation'),
-(6, 3, 1, '2026-01-23', 5.50, 'Onboarding step 4-5, progress tracking'),
+-- Contract is inherited through the ticket
+INSERT INTO time_entries (ticket_id, user_id, entry_date, hours_worked, notes) VALUES
+-- Acme Web Portal work (tickets 1-2 → contract 1)
+(1, 1, '2026-01-06', 6.00, 'Set up auth scaffolding, session management'),
+(1, 1, '2026-01-07', 7.50, 'Login/logout flow, password hashing'),
+(1, 1, '2026-01-08', 5.25, 'Registration form and validation'),
+(2, 1, '2026-01-09', 8.00, 'Dashboard layout, responsive grid'),
+(2, 1, '2026-01-10', 4.00, 'Chart components and data binding'),
+-- Acme API work (tickets 3-4 → contract 2)
+(3, 1, '2026-01-13', 6.50, 'API design and endpoint scaffolding'),
+(3, 1, '2026-01-14', 7.00, 'CRUD endpoints with validation'),
+(4, 1, '2026-01-15', 3.50, 'Stripe API research and sandbox setup'),
+-- TechStart work (tickets 5-7 → contract 3)
+(5, 1, '2026-01-20', 8.00, 'Landing page HTML/CSS from design comp'),
+(5, 1, '2026-01-21', 4.50, 'Signup form with email validation'),
+(6, 1, '2026-01-22', 6.00, 'Onboarding step 1-3 implementation'),
+(6, 1, '2026-01-23', 5.50, 'Onboarding step 4-5, progress tracking'),
 -- February entries
-(1, 1, 1, '2026-02-03', 7.00, 'Password reset flow with email tokens'),
-(2, 1, 1, '2026-02-04', 6.50, 'Mobile responsive fixes for dashboard'),
-(4, 2, 1, '2026-02-05', 8.00, 'Stripe checkout integration'),
-(4, 2, 1, '2026-02-06', 5.00, 'Webhook handlers for payment events'),
-(6, 3, 1, '2026-02-10', 7.00, 'Onboarding completion and analytics hooks'),
-(7, 3, 1, '2026-02-11', 4.00, 'Analytics dashboard chart prototypes'),
--- Greenfield (completed contract)
-(8, 4, 1, '2025-11-15', 8.00, 'Schema analysis and migration planning'),
-(8, 4, 1, '2025-11-16', 8.00, 'Migration scripts and data validation');
+(1, 1, '2026-02-03', 7.00, 'Password reset flow with email tokens'),
+(2, 1, '2026-02-04', 6.50, 'Mobile responsive fixes for dashboard'),
+(4, 1, '2026-02-05', 8.00, 'Stripe checkout integration'),
+(4, 1, '2026-02-06', 5.00, 'Webhook handlers for payment events'),
+(6, 1, '2026-02-10', 7.00, 'Onboarding completion and analytics hooks'),
+(7, 1, '2026-02-11', 4.00, 'Analytics dashboard chart prototypes'),
+-- Greenfield (ticket 8 → contract 4, completed)
+(8, 1, '2025-11-15', 8.00, 'Schema analysis and migration planning'),
+(8, 1, '2025-11-16', 8.00, 'Migration scripts and data validation');
 
 -- Completed invoice for Greenfield
 INSERT INTO invoices (client_id, invoice_number, invoice_date, due_date, total_amount, status, notes)

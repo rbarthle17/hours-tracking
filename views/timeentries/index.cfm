@@ -60,35 +60,75 @@
 		</div>
 	</cfif>
 
-	<div class="table-responsive">
+	<div class="table-responsive" x-data="{
+		col: 'date',
+		asc: false,
+		sort(newCol) {
+			if (this.col === newCol) { this.asc = !this.asc; } else { this.col = newCol; this.asc = true; }
+			const tbody = this.$refs.tbody;
+			const rows = Array.from(tbody.querySelectorAll('tr'));
+			rows.sort((a, b) => {
+				let av = a.dataset[newCol] || '';
+				let bv = b.dataset[newCol] || '';
+				if (newCol === 'hours') {
+					return this.asc ? av - bv : bv - av;
+				}
+				return this.asc ? av.localeCompare(bv) : bv.localeCompare(av);
+			});
+			rows.forEach(r => tbody.appendChild(r));
+		},
+		icon(c) { return this.col === c ? (this.asc ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : ''; }
+	}">
 		<table class="table table-striped table-hover">
 			<thead class="table-dark">
 				<tr>
-					<th>Date</th>
-					<th>Ticket</th>
-					<th>Client</th>
-					<th>Contract</th>
-					<th class="text-end">Hours</th>
-					<th>Notes</th>
+					<th>
+						<a href="##" @click.prevent="sort('client')" class="text-white text-decoration-none">
+							Client <i class="bi" :class="icon('client')"></i>
+						</a>
+					</th>
+					<th>
+						<a href="##" @click.prevent="sort('ticket')" class="text-white text-decoration-none">
+							Ticket <i class="bi" :class="icon('ticket')"></i>
+						</a>
+					</th>
+					<th>
+						<a href="##" @click.prevent="sort('date')" class="text-white text-decoration-none">
+							Date <i class="bi" :class="icon('date')"></i>
+						</a>
+					</th>
+					<th class="text-end">
+						<a href="##" @click.prevent="sort('hours')" class="text-white text-decoration-none">
+							Hours <i class="bi" :class="icon('hours')"></i>
+						</a>
+					</th>
+					<th>
+						<a href="##" @click.prevent="sort('notes')" class="text-white text-decoration-none">
+							Notes <i class="bi" :class="icon('notes')"></i>
+						</a>
+					</th>
 					<th class="text-end">Actions</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody x-ref="tbody">
 				<cfif prc.timeEntries.recordCount>
 					<cfloop query="prc.timeEntries">
-						<tr>
-							<td>#formatAppDate( prc.timeEntries.entry_date )#</td>
-							<td>
-								<a href="#event.buildLink( 'tickets' )#/#prc.timeEntries.ticket_id#">
-									#encodeForHTML( prc.timeEntries.ticket_title )#
-								</a>
-							</td>
+						<tr data-client="#encodeForHTMLAttribute( prc.timeEntries.client_name )#"
+							data-ticket="#encodeForHTMLAttribute( prc.timeEntries.ticket_title )#"
+							data-date="#dateFormat( prc.timeEntries.entry_date, 'yyyy-mm-dd' )#"
+							data-hours="#prc.timeEntries.hours_worked#"
+							data-notes="#encodeForHTMLAttribute( prc.timeEntries.notes ?: '' )#">
 							<td>
 								<a href="#event.buildLink( 'clients' )#/#prc.timeEntries.client_id#">
 									#encodeForHTML( prc.timeEntries.client_name )#
 								</a>
 							</td>
-							<td>#encodeForHTML( prc.timeEntries.contract_name )#</td>
+							<td>
+								<a href="#event.buildLink( 'tickets' )#/#prc.timeEntries.ticket_id#">
+									#encodeForHTML( prc.timeEntries.ticket_title )#
+								</a>
+							</td>
+							<td>#formatAppDate( prc.timeEntries.entry_date )#</td>
 							<td class="text-end">#numberFormat( prc.timeEntries.hours_worked, '0.00' )#</td>
 							<td>
 								<cfif len( prc.timeEntries.notes ?: '' )>
@@ -107,7 +147,7 @@
 					</cfloop>
 				<cfelse>
 					<tr>
-						<td colspan="7" class="text-center text-muted py-4">No time entries found.</td>
+						<td colspan="6" class="text-center text-muted py-4">No time entries found.</td>
 					</tr>
 				</cfif>
 			</tbody>

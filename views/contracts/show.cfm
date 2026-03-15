@@ -62,7 +62,7 @@
 			<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h5 class="mb-0">Time Entries</h5>
-					<a href="#event.buildLink( 'timeentries.new' )#?contract_id=#prc.contract.id#" class="btn btn-sm btn-primary">
+					<a href="#event.buildLink( 'timeentries.new' )#" class="btn btn-sm btn-primary">
 						<i class="bi bi-plus-lg"></i> Log Time
 					</a>
 				</div>

@@ -14,43 +14,23 @@
 					<form method="POST" action="#event.buildLink( 'timeentries' )#/#prc.timeEntry.id#">
 						<input type="hidden" name="_method" value="PUT">
 
-						<div class="row mb-3">
-							<div class="col-md-6">
-								<label for="ticket_id" class="form-label">Ticket <span class="text-danger">*</span></label>
-								<select class="form-select" id="ticket_id" name="ticket_id" required>
-									<option value="">Select a ticket...</option>
-									<cfset currentClient = "">
-									<cfloop query="prc.tickets">
-										<cfif prc.tickets.client_name NEQ currentClient>
-											<cfif len( currentClient )></optgroup></cfif>
-											<optgroup label="#encodeForHTMLAttribute( prc.tickets.client_name )#">
-											<cfset currentClient = prc.tickets.client_name>
-										</cfif>
-										<option value="#prc.tickets.id#" #prc.timeEntry.ticket_id EQ prc.tickets.id ? 'selected' : ''#>
-											#encodeForHTML( prc.tickets.title )#
-										</option>
-									</cfloop>
-									<cfif len( currentClient )></optgroup></cfif>
-								</select>
-							</div>
-							<div class="col-md-6">
-								<label for="contract_id" class="form-label">Contract <span class="text-danger">*</span></label>
-								<select class="form-select" id="contract_id" name="contract_id" required>
-									<option value="">Select a contract...</option>
-									<cfset currentClient = "">
-									<cfloop query="prc.contracts">
-										<cfif prc.contracts.client_name NEQ currentClient>
-											<cfif len( currentClient )></optgroup></cfif>
-											<optgroup label="#encodeForHTMLAttribute( prc.contracts.client_name )#">
-											<cfset currentClient = prc.contracts.client_name>
-										</cfif>
-										<option value="#prc.contracts.id#" #prc.timeEntry.contract_id EQ prc.contracts.id ? 'selected' : ''#>
-											#encodeForHTML( prc.contracts.name )# (#formatCurrency( prc.contracts.hourly_rate )#/hr)
-										</option>
-									</cfloop>
-									<cfif len( currentClient )></optgroup></cfif>
-								</select>
-							</div>
+						<div class="mb-3">
+							<label for="ticket_id" class="form-label">Ticket <span class="text-danger">*</span></label>
+							<select class="form-select" id="ticket_id" name="ticket_id" required>
+								<option value="">Select a ticket...</option>
+								<cfset currentClient = "">
+								<cfloop query="prc.tickets">
+									<cfif prc.tickets.client_name NEQ currentClient>
+										<cfif len( currentClient )></optgroup></cfif>
+										<optgroup label="#encodeForHTMLAttribute( prc.tickets.client_name )#">
+										<cfset currentClient = prc.tickets.client_name>
+									</cfif>
+									<option value="#prc.tickets.id#" #prc.timeEntry.ticket_id EQ prc.tickets.id ? 'selected' : ''#>
+										#encodeForHTML( prc.tickets.title )#
+									</option>
+								</cfloop>
+								<cfif len( currentClient )></optgroup></cfif>
+							</select>
 						</div>
 
 						<div class="row mb-3">

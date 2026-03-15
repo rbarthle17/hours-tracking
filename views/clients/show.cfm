@@ -101,7 +101,7 @@
 			<div class="card">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<h5 class="mb-0">Tickets</h5>
-					<a href="#event.buildLink( 'tickets.new' )#?client_id=#prc.client.id#" class="btn btn-sm btn-primary">
+					<a href="#event.buildLink( 'tickets.new' )#" class="btn btn-sm btn-primary">
 						<i class="bi bi-plus-lg"></i> Add Ticket
 					</a>
 				</div>

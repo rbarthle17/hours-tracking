@@ -2,7 +2,7 @@
  * TimeEntryService
  *
  * CRUD operations for time entry records.
- * Time entries link a ticket (what work) to a contract (what rate) for a user.
+ * Time entries link a user to a ticket. Contract and rate are inherited through the ticket.
  */
 component singleton accessors="true" {
 
@@ -24,22 +24,22 @@ component singleton accessors="true" {
 		string startDate = "",
 		string endDate = ""
 	) {
-		var sql = "SELECT te.id, te.ticket_id, te.contract_id, te.user_id, te.entry_date,
+		var sql = "SELECT te.id, te.ticket_id, te.user_id, te.entry_date,
 						  te.hours_worked, te.notes, te.created_at,
-						  t.title AS ticket_title,
+						  t.title AS ticket_title, t.contract_id,
 						  c.name AS contract_name, c.hourly_rate,
 						  cl.name AS client_name, cl.id AS client_id,
 						  CONCAT( u.first_name, ' ', u.last_name ) AS user_name
 				   FROM time_entries te
 				   JOIN tickets t ON te.ticket_id = t.id
-				   JOIN contracts c ON te.contract_id = c.id
-				   JOIN clients cl ON t.client_id = cl.id
+				   JOIN contracts c ON t.contract_id = c.id
+				   JOIN clients cl ON c.client_id = cl.id
 				   JOIN users u ON te.user_id = u.id
 				   WHERE 1=1";
 		var params = {};
 
 		if ( arguments.contractId > 0 ) {
-			sql &= " AND te.contract_id = :contractId";
+			sql &= " AND t.contract_id = :contractId";
 			params.contractId = { value: arguments.contractId, cfsqltype: "cf_sql_integer" };
 		}
 
@@ -77,12 +77,14 @@ component singleton accessors="true" {
 	 */
 	function listByTicket( required numeric ticketId ) {
 		return queryExecute(
-			"SELECT te.id, te.ticket_id, te.contract_id, te.user_id, te.entry_date,
+			"SELECT te.id, te.ticket_id, te.user_id, te.entry_date,
 					te.hours_worked, te.notes, te.created_at,
+					t.contract_id,
 					c.name AS contract_name, c.hourly_rate,
 					CONCAT( u.first_name, ' ', u.last_name ) AS user_name
 			 FROM time_entries te
-			 JOIN contracts c ON te.contract_id = c.id
+			 JOIN tickets t ON te.ticket_id = t.id
+			 JOIN contracts c ON t.contract_id = c.id
 			 JOIN users u ON te.user_id = u.id
 			 WHERE te.ticket_id = :ticketId
 			 ORDER BY te.entry_date DESC",
@@ -99,14 +101,15 @@ component singleton accessors="true" {
 	 */
 	function listByContract( required numeric contractId ) {
 		return queryExecute(
-			"SELECT te.id, te.ticket_id, te.contract_id, te.user_id, te.entry_date,
+			"SELECT te.id, te.ticket_id, te.user_id, te.entry_date,
 					te.hours_worked, te.notes, te.created_at,
+					t.contract_id,
 					t.title AS ticket_title,
 					CONCAT( u.first_name, ' ', u.last_name ) AS user_name
 			 FROM time_entries te
 			 JOIN tickets t ON te.ticket_id = t.id
 			 JOIN users u ON te.user_id = u.id
-			 WHERE te.contract_id = :contractId
+			 WHERE t.contract_id = :contractId
 			 ORDER BY te.entry_date DESC",
 			{ contractId: { value: arguments.contractId, cfsqltype: "cf_sql_integer" } }
 		);
@@ -121,16 +124,16 @@ component singleton accessors="true" {
 	 */
 	function get( required numeric id ) {
 		return queryExecute(
-			"SELECT te.id, te.ticket_id, te.contract_id, te.user_id, te.entry_date,
+			"SELECT te.id, te.ticket_id, te.user_id, te.entry_date,
 					te.hours_worked, te.notes, te.created_at, te.updated_at,
-					t.title AS ticket_title,
+					t.title AS ticket_title, t.contract_id,
 					c.name AS contract_name, c.hourly_rate,
 					cl.name AS client_name, cl.id AS client_id,
 					CONCAT( u.first_name, ' ', u.last_name ) AS user_name
 			 FROM time_entries te
 			 JOIN tickets t ON te.ticket_id = t.id
-			 JOIN contracts c ON te.contract_id = c.id
-			 JOIN clients cl ON t.client_id = cl.id
+			 JOIN contracts c ON t.contract_id = c.id
+			 JOIN clients cl ON c.client_id = cl.id
 			 JOIN users u ON te.user_id = u.id
 			 WHERE te.id = :id",
 			{ id: { value: arguments.id, cfsqltype: "cf_sql_integer" } }
@@ -154,15 +157,15 @@ component singleton accessors="true" {
 		string startDate = "",
 		string endDate = ""
 	) {
-		var sql = "SELECT te.id, te.ticket_id, te.contract_id, te.user_id, te.entry_date,
+		var sql = "SELECT te.id, te.ticket_id, te.user_id, te.entry_date,
 						  te.hours_worked, te.notes,
-						  t.title AS ticket_title,
+						  t.title AS ticket_title, t.contract_id,
 						  c.name AS contract_name, c.hourly_rate,
 						  cl.name AS client_name, cl.id AS client_id
 				   FROM time_entries te
 				   JOIN tickets t ON te.ticket_id = t.id
-				   JOIN contracts c ON te.contract_id = c.id
-				   JOIN clients cl ON t.client_id = cl.id
+				   JOIN contracts c ON t.contract_id = c.id
+				   JOIN clients cl ON c.client_id = cl.id
 				   LEFT JOIN invoice_line_items ili ON te.id = ili.time_entry_id
 				   WHERE ili.id IS NULL";
 		var params = {};
@@ -173,7 +176,7 @@ component singleton accessors="true" {
 		}
 
 		if ( arguments.contractId > 0 ) {
-			sql &= " AND te.contract_id = :contractId";
+			sql &= " AND t.contract_id = :contractId";
 			params.contractId = { value: arguments.contractId, cfsqltype: "cf_sql_integer" };
 		}
 
@@ -195,7 +198,7 @@ component singleton accessors="true" {
 	/**
 	 * Create a new time entry
 	 *
-	 * @data Struct containing ticket_id, contract_id, user_id, entry_date, hours_worked, notes
+	 * @data Struct containing ticket_id, user_id, entry_date, hours_worked, notes
 	 *
 	 * @return numeric The new time entry ID
 	 */
@@ -206,16 +209,12 @@ component singleton accessors="true" {
 		if ( !val( arguments.data.ticket_id ?: 0 ) ) {
 			throw( type = "validation", message = "A ticket is required." );
 		}
-		if ( !val( arguments.data.contract_id ?: 0 ) ) {
-			throw( type = "validation", message = "A contract is required." );
-		}
 
 		queryExecute(
-			"INSERT INTO time_entries ( ticket_id, contract_id, user_id, entry_date, hours_worked, notes )
-			 VALUES ( :ticket_id, :contract_id, :user_id, :entry_date, :hours_worked, :notes )",
+			"INSERT INTO time_entries ( ticket_id, user_id, entry_date, hours_worked, notes )
+			 VALUES ( :ticket_id, :user_id, :entry_date, :hours_worked, :notes )",
 			{
 				ticket_id: { value: arguments.data.ticket_id, cfsqltype: "cf_sql_integer" },
-				contract_id: { value: arguments.data.contract_id, cfsqltype: "cf_sql_integer" },
 				user_id: { value: arguments.data.user_id, cfsqltype: "cf_sql_integer" },
 				entry_date: { value: arguments.data.entry_date, cfsqltype: "cf_sql_date" },
 				hours_worked: { value: arguments.data.hours_worked, cfsqltype: "cf_sql_decimal" },
@@ -231,7 +230,7 @@ component singleton accessors="true" {
 	 * Update an existing time entry
 	 *
 	 * @id   The time entry ID
-	 * @data Struct containing ticket_id, contract_id, entry_date, hours_worked, notes
+	 * @data Struct containing ticket_id, entry_date, hours_worked, notes
 	 */
 	function update( required numeric id, required struct data ) {
 		if ( !val( arguments.data.hours_worked ?: 0 ) ) {
@@ -240,13 +239,12 @@ component singleton accessors="true" {
 
 		queryExecute(
 			"UPDATE time_entries
-			 SET ticket_id = :ticket_id, contract_id = :contract_id,
+			 SET ticket_id = :ticket_id,
 				 entry_date = :entry_date, hours_worked = :hours_worked, notes = :notes
 			 WHERE id = :id",
 			{
 				id: { value: arguments.id, cfsqltype: "cf_sql_integer" },
 				ticket_id: { value: arguments.data.ticket_id, cfsqltype: "cf_sql_integer" },
-				contract_id: { value: arguments.data.contract_id, cfsqltype: "cf_sql_integer" },
 				entry_date: { value: arguments.data.entry_date, cfsqltype: "cf_sql_date" },
 				hours_worked: { value: arguments.data.hours_worked, cfsqltype: "cf_sql_decimal" },
 				notes: { value: trim( arguments.data.notes ?: "" ), cfsqltype: "cf_sql_varchar", null: !len( trim( arguments.data.notes ?: "" ) ) }
